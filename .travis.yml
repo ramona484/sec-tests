@@ -13,6 +13,11 @@ addons:
 services:
   - docker
 
+env:
+ global:
+  - COMMIT=${TRAVIS_COMMIT::8}
+
+
 before install:
   - docker build -t trivy-ci-test:${COMMIT} .
   - export VERSION=$(curl --silent "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
