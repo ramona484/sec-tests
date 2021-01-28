@@ -1,0 +1,20 @@
+language: python
+sudo: required
+
+
+jobs:
+  include:
+
+services:
+  - docker
+before_script:
+  - npm install
+
+script:
+  - docker build -t sec-tests .
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+  - docker tag sec-tests $DOCKER_USER/sec-tests:$TRAVIS_BUILD_NUMBER
+  - docker push $DOCKER_USER/sec-tests:$TRAVIS_BUILD_NUMBER
+  - docker tag sec-tests $DOCKER_USER/sec-tests:latest
+  - docker push $DOCKER_USER/sec-tests:latest
