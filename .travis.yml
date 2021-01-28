@@ -18,6 +18,13 @@ env:
  global:
   - COMMIT=${TRAVIS_COMMIT::8}
 
+ jobs:
+  include:
+
+ - stage: Leaks
+    language: generic
+    script:
+     - "./.ci/leaks.sh"
 
 before install:
   - docker build -t trivy-ci-test:${COMMIT} .
