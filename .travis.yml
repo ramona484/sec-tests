@@ -10,6 +10,7 @@ addons:
     organization: "ramona484"
     token: $SONAR_TOKEN
 
+
 services:
   - docker
 
@@ -28,6 +29,8 @@ before install:
   - wget https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.tar.gz
   - tar zxvf dockle_${VERSION}_Linux-64bit.tar.gz
 
+install:
+ - pip install --user codecov
 
 before_script:
   - npm install
@@ -40,6 +43,7 @@ script:
   - docker build -t sec-tests .
 
 after_success:
+  - codecov
   - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
   - docker tag sec-tests $DOCKER_USER/sec-tests:$TRAVIS_BUILD_NUMBER
   - docker push $DOCKER_USER/sec-tests:$TRAVIS_BUILD_NUMBER
