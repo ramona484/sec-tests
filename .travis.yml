@@ -13,7 +13,7 @@ addons:
 services:
   - docker
 
- before install:
+before install:
   - docker build -t trivy-ci-test:${COMMIT} .
   - export VERSION=$(curl --silent "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
   - wget https://github.com/aquasecurity/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz
@@ -33,7 +33,7 @@ script:
   - ./trivy --exit-code 1 --severity CRITICAL --no-progress trivy-ci-test:${COMMIT}
   - ./dockle --exit-code 1 dockle-ci-test:${COMMIT}
   - docker build -t sec-tests .
-  -
+
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
   - docker tag sec-tests $DOCKER_USER/sec-tests:$TRAVIS_BUILD_NUMBER
