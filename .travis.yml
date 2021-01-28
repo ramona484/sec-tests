@@ -18,13 +18,6 @@ env:
  global:
   - COMMIT=${TRAVIS_COMMIT::8}
 
- jobs:
-  include:
-
- - stage: Leaks
-    language: generic
-    script:
-     - "./.ci/leaks.sh"
 
 before install:
   - docker build -t trivy-ci-test:${COMMIT} .
@@ -36,8 +29,6 @@ before install:
   - wget https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.tar.gz
   - tar zxvf dockle_${VERSION}_Linux-64bit.tar.gz
 
-install:
- - pip install --user codecov
 
 before_script:
   - npm install
