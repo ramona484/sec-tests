@@ -6,7 +6,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Docker Build
-      run: docker build . --file Dockerfile --tag testrepo/testimage:latest
+      run: docker build . --file Dockerfile --tag ramona84/sec-tests:latest
     - uses: anchore/scan-action@v1
       with:
         image-reference: "ramona84/sec-tests:latest"
